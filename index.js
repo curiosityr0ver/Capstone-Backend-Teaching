@@ -7,6 +7,7 @@ const PORT = 3000;
 const app = express();
 app.use(express.json());
 
+
 // Connect to MongoDB
 mongoose.connect(process.env.MONGO_URI).then(() => {
     console.log('Connected to MongoDB');
@@ -14,7 +15,7 @@ mongoose.connect(process.env.MONGO_URI).then(() => {
     console.log('Failed to connect to MongoDB', err);
 });
 
-
+app.use('/user', userRoute);
 
 app.get('/health', (req, res) => {
     // res.send
