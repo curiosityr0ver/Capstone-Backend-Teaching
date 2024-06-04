@@ -1,10 +1,11 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv').config();
-
+const userRoute = require('./routes/userRoute');
 const PORT = 3000;
 
 const app = express();
+app.use(express.json());
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGO_URI).then(() => {
