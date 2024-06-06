@@ -3,6 +3,8 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv').config();
 const userRoute = require('./routes/userRoute');
 const jobRoute = require('./routes/jobRoute');
+const verifyToken = require('./middleware/verifyToken');
+
 const PORT = 3000;
 
 const app = express();
@@ -17,7 +19,7 @@ mongoose.connect(process.env.MONGO_URI).then(() => {
 });
 
 app.use('/user', userRoute);
-app.use('/job', jobRoute);
+app.use('/job', verifyToken, jobRoute);
 
 app.get('/health', (req, res) => {
     // res.send
@@ -31,5 +33,6 @@ app.get('/health', (req, res) => {
 
 
 app.listen(PORT, () => {
+    console.clear();
     console.log(`Server is running on port ${PORT}`);
 });

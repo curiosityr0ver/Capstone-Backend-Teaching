@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const router = express.Router();
 const User = require('../model/User');
+const validateNewUser = require('../middleware/validateNewUser');
 
 router.get('/', (req, res) => {
     res.json({
@@ -12,7 +13,7 @@ router.get('/', (req, res) => {
 });
 
 // We'll create a validation middleware (data is missing)
-router.post('/register', async (req, res) => {
+router.post('/register', validateNewUser, async (req, res) => {
     const { name, email, password } = req.body;
 
     const existingUser = await User.findOne({ email: email });
