@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv').config();
 const userRoute = require('./routes/userRoute');
+const jobRoute = require('./routes/jobRoute');
 const PORT = 3000;
 
 const app = express();
@@ -16,6 +17,7 @@ mongoose.connect(process.env.MONGO_URI).then(() => {
 });
 
 app.use('/user', userRoute);
+app.use('/job', jobRoute);
 
 app.get('/health', (req, res) => {
     // res.send
