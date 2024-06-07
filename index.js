@@ -4,6 +4,7 @@ const dotenv = require('dotenv').config();
 const userRoute = require('./routes/userRoute');
 const jobRoute = require('./routes/jobRoute');
 const verifyToken = require('./middleware/verifyToken');
+const errorHandler = require('./middleware/errorHandler');
 
 const PORT = 3000;
 
@@ -29,8 +30,16 @@ app.get('/health', (req, res) => {
         date: new Date().toLocaleDateString()
     });
 });
+
+app.use("*", (req, res) => {
+    res.status(404).json({
+        message: 'Endpoint not found',
+        status: 'Error',
+    });
+});
 //localhost:3000/health
 
+app.use(errorHandler);
 
 app.listen(PORT, () => {
     console.clear();

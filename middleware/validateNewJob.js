@@ -8,10 +8,10 @@ const validateNewJob = (req, res, next) => {
             message: 'Please provide all required fields',
         });
     }
-    const validJobPositions = ["Full-Time", "Part-Time", "Internship"];
+    const validJobTypes = ["Full-Time", "Part-Time", "Internship"];
     const validSkills = Array.isArray(skillsRequired) && skillsRequired.every(skill => typeof skill === 'string');
     const validMonthlySalary = typeof monthlySalary === 'number' && monthlySalary > 0;
-    const validJobPosition = validJobPositions.includes(jobType);
+    const validJobPosition = validJobTypes.includes(jobType);
     const validLogoUrl = logoUrl.match(/^(https?:\/\/.*\.(?:png|jpg|jpeg|gif|svg|webp))$/i);
 
     if (!validSkills || !validMonthlySalary || !validJobPosition || !validLogoUrl) {

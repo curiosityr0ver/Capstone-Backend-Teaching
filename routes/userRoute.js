@@ -14,35 +14,39 @@ router.get('/', (req, res) => {
 
 // We'll create a validation middleware (data is missing)
 router.post('/register', validateNewUser, async (req, res) => {
-    const { name, email, password } = req.body;
+    try {
+        const { name, email, password } = req.body;
 
-    const existingUser = await User.findOne({ email: email });
+        const existingUser = await User.findOne({ email: email });
 
-    if (existingUser) {
-        return res.status(400).json({
-            message: 'User already exists, please use another email address',
-        });
-    } else {
-        const hashedPassword = await bcrypt.hash(password, 10);
-        const newUser = new User({
-            name,
-            email,
-            password: hashedPassword,
-        });
+        if (existingUser) {
+            return res.status(400).json({
+                message: 'User already exists, please use another email address',
+            });
+        } else {
+            const hashedPassword = await bcrypt.hash(password, 10);
+            const newUser = new User({
+                name,
+                email,
+                password: hashedPassword,
+            });
 
-        await newUser.save();
-        res.status(201).json({
-            message: 'User created successfully',
-            user: newUser
-        });
+            await newUser.save();
+            res.status(201).json({
+                message: 'User created successfully',
+                user: newUser
+            });
+        }
+    } catch (error) {
+        next("Error Creating User", error);
     }
+
 });
 
 
 router.post('/login', async (req, res) => {
-    const { email, password } = req.body;
-
     try {
+        const { email, password } = req.body;
         const existingUser = await User.findOne({ email: email });
 
         if (existingUser) {
@@ -71,10 +75,7 @@ router.post('/login', async (req, res) => {
             });
         }
     } catch (error) {
-        res.status(500).json({
-            message: 'Internal Server Error',
-            error,
-        });
+        next("Error Logging In", error);
     }
 });
 
