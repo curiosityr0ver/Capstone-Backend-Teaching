@@ -9,7 +9,7 @@ const verifyToken = (req, res, next) => {
 
         const decoded = jwt.verify(token, 'secret');
         console.log(decoded);
-        req.user = decoded;
+        req.refUserId = decoded.userID;
         next();
     } catch (error) {
         return res.status(401).json({ message: 'Token Not Found or Valid' });
