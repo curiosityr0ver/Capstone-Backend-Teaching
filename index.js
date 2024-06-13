@@ -4,11 +4,14 @@ const dotenv = require('dotenv').config();
 const userRoute = require('./routes/userRoute');
 const jobRoute = require('./routes/jobRoute');
 const errorHandler = require('./middleware/errorHandler');
+const cors = require('cors');
 
 const PORT = 3000;
 
 const app = express();
+app.use(cors());
 app.use(express.json());
+
 
 
 // Connect to MongoDB
