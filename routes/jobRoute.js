@@ -5,7 +5,7 @@ const { getFilteredJobs, getJobById, createNewJob, updateExistingJob, deleteJob 
 const verifyToken = require('../middleware/verifyToken');
 
 
-router.get('/', verifyToken, getFilteredJobs());
+router.get('/', getFilteredJobs());
 
 router.get('/:id', getJobById());
 
